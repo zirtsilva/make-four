@@ -1,18 +1,19 @@
 public class Player {
 
-    private String name;
-    private String playerNumber;
+
+    int playerNumber;
     private Controller controller;
     private boolean itsHisTurn = false;
+    GameEngine gameEngine;
+    Player otherPlayer;
 
 
-    Player (Controller controller){
+    Player (Controller controller, int playerNumber){
         this.controller = controller;
+        this.playerNumber = playerNumber;
     }
 
-    public Controller getController(){
-        return controller;
-    }
+
 
     public void moveControllerLeft(){
         controller.moveLeft();
@@ -23,7 +24,8 @@ public class Player {
     public void playThisLine(){
         if (itsHisTurn) {
             controller.hide();
-            System.out.println(controller.getCurrentPosition());
+            gameEngine.setPlay(playerNumber, controller.getCurrentPosition());
+            endRound();
         }
     }
     public void startRound(){
@@ -32,7 +34,24 @@ public class Player {
     }
     public void endRound(){
         itsHisTurn = false;
+        gameEngine.playRound(otherPlayer);
     }
+
+    public void setGameEngine(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
+    }
+
+    public void setOtherPlayer(Player otherPlayer){
+        this.otherPlayer = otherPlayer;
+    }
+
+    public int getPlayerNumber(){
+        return playerNumber;
+    }
+    public int getcurrentPosition(){
+        return controller.getCurrentPosition();
+    }
+
 
 
 }
