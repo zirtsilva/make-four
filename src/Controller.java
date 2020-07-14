@@ -13,12 +13,12 @@ public class Controller {
         this.playerNumber = playerNumber;
         currentPosition = 4;
         if (playerNumber == 1) {
-            Picture controller1 = new Picture(Constants.PADDING + 380, Constants.PADDING, Constants.YELLOW_PIECE_SOURCE);
+            Picture controller1 = new Picture(Constants.PADDING + 380, Constants.PADDING +10, Constants.YELLOW_PIECE_SOURCE);
             controllerPicture = controller1;
         }
 
         if (playerNumber == 2) {
-            Picture controller2 = new Picture(Constants.PADDING + 380, Constants.PADDING, Constants.RED_PIECE_SOURCE);
+            Picture controller2 = new Picture(Constants.PADDING + 380, Constants.PADDING +10, Constants.RED_PIECE_SOURCE);
             controllerPicture = controller2;
         }
     }

@@ -3,11 +3,11 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 public class Piece {
 
     private String player;
+    private String color1Path = "resources/yellowPiece.png";
+    private String color2Path = "resources/redPiece.png";
+    Picture picture;
 
-    private String color1Path = "resources/redPiece.png";
-    private String color2Path = "resources/yellowPiece.png";
-
-    Piece(int player){
+    Piece(double posX, double posY, int player){
         if (player == 1){
             this.player = color1Path;
         }
@@ -15,8 +15,15 @@ public class Piece {
             this.player = color2Path;
         }
 
-        Picture piece = new Picture(10, 10, this.player);
+        Picture picture = new Picture(posX, posY, this.player);
+        picture.draw();
+        this.picture = picture;
 
     }
+
+    public Picture getPicture(){
+        return picture;
+    }
+
 
 }

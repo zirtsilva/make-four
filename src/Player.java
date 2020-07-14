@@ -14,20 +14,25 @@ public class Player {
     }
 
 
-
     public void moveControllerLeft(){
         controller.moveLeft();
     }
     public void moveControllerRight(){
         controller.moveRight();
     }
-    public void playThisLine(){
+
+    public void playThisLine() {
         if (itsHisTurn) {
             controller.hide();
-            gameEngine.setPlay(playerNumber, controller.getCurrentPosition());
-            endRound();
+            if (gameEngine.playedPositionIsFree(controller.getCurrentPosition())) {
+                gameEngine.setPlay(playerNumber, controller.getCurrentPosition());
+                endRound();
+            } else {
+                startRound();
+            }
         }
     }
+
     public void startRound(){
         itsHisTurn = true;
         controller.startRound();
@@ -43,13 +48,6 @@ public class Player {
 
     public void setOtherPlayer(Player otherPlayer){
         this.otherPlayer = otherPlayer;
-    }
-
-    public int getPlayerNumber(){
-        return playerNumber;
-    }
-    public int getcurrentPosition(){
-        return controller.getCurrentPosition();
     }
 
 

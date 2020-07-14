@@ -5,6 +5,7 @@ public class GameEngine {
     Player currentPlayer;
     Controls controls;
     Grid grid;
+    int[][] positions;
 
 
     public void init() {
@@ -43,16 +44,45 @@ public class GameEngine {
         currentPlayer = player;
         controls.setPlayer(player);
         player.startRound();
+        System.out.println(checkIfThereIsAWinner());
 
     }
 
-    public void setPlay(int playerNumber, int playedPosition){
+    public void setPlay(int playerNumber, int playedPosition) {
         grid.setPlay(playerNumber, playedPosition);
-        System.out.println(playerNumber);
-        System.out.println(playedPosition);
     }
 
+    public boolean playedPositionIsFree(int currentPosition){
 
+        return grid.playedPositionIsFree(currentPosition);
+
+    }
+
+    public boolean checkIfThereIsAWinner() {
+
+        positions = grid.getPositions();
+
+        //check horizontally
+        for (int j = 0; j <=5; j++) {
+
+            int currentNum = positions[j][0];
+            int currentConsecutive = 1;
+            int maxConsecutive = 1;
+            for (int i = 1; i < positions[j].length; i++) {
+                if ((positions[j][i] == currentNum) && (currentNum != 0)) {
+                    currentConsecutive++;
+                    maxConsecutive = Math.max(maxConsecutive, currentConsecutive);
+                    if (maxConsecutive >= 4){
+                        return true;
+                    }
+                } else {
+                    currentNum = positions[j][i];
+                    currentConsecutive = 1;
+                }
+            }
+        }
+        return false;
+    }
 
 }
 
