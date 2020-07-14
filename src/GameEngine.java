@@ -64,11 +64,10 @@ public class GameEngine {
 
         //check horizontally
         for (int j = 0; j <=5; j++) {
-
             int currentNum = positions[j][0];
             int currentConsecutive = 1;
             int maxConsecutive = 1;
-            for (int i = 1; i < positions[j].length; i++) {
+            for (int i = 1; i < 6; i++) {
                 if ((positions[j][i] == currentNum) && (currentNum != 0)) {
                     currentConsecutive++;
                     maxConsecutive = Math.max(maxConsecutive, currentConsecutive);
@@ -77,6 +76,25 @@ public class GameEngine {
                     }
                 } else {
                     currentNum = positions[j][i];
+                    currentConsecutive = 1;
+                }
+            }
+        }
+
+        //check vertically
+        for (int j = 0; j <=6; j++) {
+            int currentNum = positions[0][j];
+            int currentConsecutive = 1;
+            int maxConsecutive = 1;
+            for (int i = 1; i < 5; i++) {
+                if ((positions[i][j] == currentNum) && (currentNum != 0)) {
+                    currentConsecutive++;
+                    maxConsecutive = Math.max(maxConsecutive, currentConsecutive);
+                    if (maxConsecutive >= 3){
+                        return true;
+                    }
+                } else {
+                    currentNum = positions[i][j];
                     currentConsecutive = 1;
                 }
             }
