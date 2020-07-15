@@ -1,3 +1,5 @@
+import org.academiadecodigo.simplegraphics.pictures.Picture;
+
 public class GameEngine {
 
     Player player1;
@@ -6,6 +8,7 @@ public class GameEngine {
     Controls controls;
     Grid grid;
     int[][] positions;
+    int winner;
 
 
     public void init() {
@@ -33,6 +36,7 @@ public class GameEngine {
         this.player1 = player1;
         this.player2 = player2;
 
+
     }
 
     public void startGame(){
@@ -43,9 +47,11 @@ public class GameEngine {
 
         currentPlayer = player;
         controls.setPlayer(player);
-        player.startRound();
-        System.out.println(checkIfThereIsAWinner());
-
+        if (checkIfThereIsAWinner()){
+            endGame();
+        } else {
+            player.startRound();
+        }
     }
 
     public void setPlay(int playerNumber, int playedPosition) {
@@ -63,45 +69,66 @@ public class GameEngine {
         positions = grid.getPositions();
 
         //check horizontally
-        for (int j = 0; j <=5; j++) {
-            int currentNum = positions[j][0];
-            int currentConsecutive = 1;
-            int maxConsecutive = 1;
-            for (int i = 1; i < 6; i++) {
-                if ((positions[j][i] == currentNum) && (currentNum != 0)) {
-                    currentConsecutive++;
-                    maxConsecutive = Math.max(maxConsecutive, currentConsecutive);
-                    if (maxConsecutive >= 4){
-                        return true;
-                    }
-                } else {
-                    currentNum = positions[j][i];
-                    currentConsecutive = 1;
+        for (int i = 0; i <= 5; i++){
+            for (int j = 0; j <= 3; j++){
+                if ((positions[i][j] != 0) && (positions[i][j] == positions[i][j+1]) && (positions[i][j] == positions[i][j+2]) && (positions[i][j] == positions[i][j+3])){
+                    System.out.println("Winner: Player " + positions[i][j]);
+                    winner = positions[i][j];
+                    return true;
                 }
             }
         }
 
         //check vertically
-        for (int j = 0; j <=6; j++) {
-            int currentNum = positions[0][j];
-            int currentConsecutive = 1;
-            int maxConsecutive = 1;
-            for (int i = 1; i < 5; i++) {
-                if ((positions[i][j] == currentNum) && (currentNum != 0)) {
-                    currentConsecutive++;
-                    maxConsecutive = Math.max(maxConsecutive, currentConsecutive);
-                    if (maxConsecutive >= 3){
-                        return true;
-                    }
-                } else {
-                    currentNum = positions[i][j];
-                    currentConsecutive = 1;
+        for (int i = 0; i <= 2; i++){
+            for (int j = 0; j <= 6; j++){
+                if ((positions[i][j] != 0) && (positions[i][j] == positions[i+1][j]) && (positions[i][j] == positions[i+2][j]) && (positions[i][j] == positions[i+3][j])){
+                    System.out.println("Winner: Player " + positions[i][j]);
+                    winner = positions[i][j];
+                    return true;
+                }
+            }
+        }
+
+        //check diagonally right to left
+        for (int i = 0; i <= 2; i++){
+            for (int j = 0; j <= 3; j++){
+                if ((positions[i][j] != 0) && (positions[i][j] == positions[i+1][j+1]) && (positions[i][j] == positions[i+2][j+2]) && (positions[i][j] == positions[i+3][j+3])){
+                    System.out.println("Winner: Player " + positions[i][j]);
+                    winner = positions[i][j];
+                    return true;
+                }
+            }
+        }
+
+        //check diagonally left to right
+        for (int i = 5; i >=3; i--){
+            for (int j = 0; j <= 3; j++){
+                if ((positions[i][j] != 0) && (positions[i][j] == positions[i-1][j+1]) && (positions[i][j] == positions[i-2][j+2]) && (positions[i][j] == positions[i-3][j+3])){
+                    System.out.println("Winner: Player " + positions[i][j]);
+                    winner = positions[i][j];
+                    return true;
                 }
             }
         }
         return false;
     }
 
+
+    public void endGame(){
+
+        currentPlayer = null;
+
+        if (winner == 1){
+            Picture picture = new Picture(10, 10, "resources/player1Wins.png");
+            picture.draw();
+        }
+
+        if (winner == 2){
+            Picture picture = new Picture(10, 10, "resources/player2Wins.png");
+            picture.draw();
+        }
+    }
 }
 
 

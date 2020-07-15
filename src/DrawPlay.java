@@ -17,9 +17,8 @@ public class DrawPlay implements Runnable{
 
     }
 
-
     @Override
-    public void run() {
+    public synchronized void run() {
 
         Piece piece = new Piece(((playedPosition - 1) * 120) + 20 + Constants.PADDING, 20, playerNumber);
         picture = piece.getPicture();
