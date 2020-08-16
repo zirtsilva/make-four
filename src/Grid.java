@@ -13,7 +13,7 @@ public class Grid {
         positions = new int[6][7];
     }
 
-    public void setPlay(int playerNumber, int playedPosition) {
+    public synchronized void setPlay(int playerNumber, int playedPosition) {
 
         if (playedPositionIsFree(playedPosition)) {
 

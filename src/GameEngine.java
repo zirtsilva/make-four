@@ -17,6 +17,7 @@ public class GameEngine {
 
         Grid grid = new Grid();
 
+
         Controller controller1 = new Controller(1);
         Player player1 = new Player(controller1, 1);
         player1.setGameEngine(this);
@@ -30,6 +31,7 @@ public class GameEngine {
 
         Controls controls = new Controls();
         controls.init();
+        controls.setGameEngine(this);
         this.controls = controls;
 
         this.grid = grid;
@@ -47,8 +49,13 @@ public class GameEngine {
 
         currentPlayer = player;
         controls.setPlayer(player);
-        if (checkIfThereIsAWinner()){
+        if (checkIfThereIsAWinner()) {
             endGame();
+        } else if (checkIfThereIsADraw()){
+            Picture draw = new Picture(10, 10, "resources/draw.png");
+            Picture restart = new Picture(200, 350, "resources/restartScreen.png");
+            draw.draw();
+            restart.draw();
         } else {
             player.startRound();
         }
@@ -74,6 +81,8 @@ public class GameEngine {
                 if ((positions[i][j] != 0) && (positions[i][j] == positions[i][j+1]) && (positions[i][j] == positions[i][j+2]) && (positions[i][j] == positions[i][j+3])){
                     System.out.println("Winner: Player " + positions[i][j]);
                     winner = positions[i][j];
+                    Thread thread = new Thread(new DrawHorizontalLine(i, j));
+                    thread.start();
                     return true;
                 }
             }
@@ -85,6 +94,8 @@ public class GameEngine {
                 if ((positions[i][j] != 0) && (positions[i][j] == positions[i+1][j]) && (positions[i][j] == positions[i+2][j]) && (positions[i][j] == positions[i+3][j])){
                     System.out.println("Winner: Player " + positions[i][j]);
                     winner = positions[i][j];
+                    Thread thread = new Thread(new DrawVerticalLine(i, j));
+                    thread.start();
                     return true;
                 }
             }
@@ -114,6 +125,20 @@ public class GameEngine {
         return false;
     }
 
+    public boolean checkIfThereIsADraw(){
+
+        for (int i = 0; i <= 5; i++){
+            for (int j = 0; j <= 6; j++){
+                if (positions[i][j] == 0){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
+    }
+
 
     public void endGame(){
 
@@ -122,13 +147,34 @@ public class GameEngine {
         if (winner == 1){
             Picture picture = new Picture(10, 10, "resources/player1Wins.png");
             picture.draw();
+
         }
 
         if (winner == 2){
             Picture picture = new Picture(10, 10, "resources/player2Wins.png");
             picture.draw();
         }
+
     }
+
+    public void restartGame(){
+
+        player1 = null;
+        player2 = null;
+        currentPlayer = null;
+        controls = null;
+        grid = null;
+        positions = null;
+        winner = 0;
+
+        GameEngine g = new GameEngine();
+        g.init();
+        g.startGame();
+
+    }
+
+
+
 }
 
 

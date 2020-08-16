@@ -8,6 +8,7 @@ public class Controls implements KeyboardHandler {
 
     private Keyboard keyboard;
     private Player player;
+    private GameEngine gameEngine;
 
     public void init() {
 
@@ -32,6 +33,12 @@ public class Controls implements KeyboardHandler {
         pressedSpace.setKey(KeyboardEvent.KEY_SPACE);
         pressedSpace.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(pressedSpace);
+
+        KeyboardEvent pressedEsc = new KeyboardEvent();
+        pressedEsc.setKey(KeyboardEvent.KEY_ESC);
+        pressedEsc.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(pressedEsc);
+
     }
 
     @Override
@@ -50,6 +57,9 @@ public class Controls implements KeyboardHandler {
             case KeyboardEvent.KEY_DOWN:
                 player.playThisLine();
                 break;
+            case KeyboardEvent.KEY_ESC:
+                gameEngine.restartGame();
+                break;
         }
     }
 
@@ -62,5 +72,7 @@ public class Controls implements KeyboardHandler {
         this.player = player;
     }
 
-
+    public void setGameEngine(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
+    }
 }
