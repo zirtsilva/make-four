@@ -1,5 +1,8 @@
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class GameEngine {
 
     Player player1;
@@ -12,6 +15,7 @@ public class GameEngine {
     Background background;
     Controller controller1;
     Controller controller2;
+    ExecutorService cachedPool;
 
 
     public void init() {
@@ -37,6 +41,8 @@ public class GameEngine {
 
         this.player1 = player1;
         this.player2 = player2;
+
+        cachedPool = Executors.newCachedThreadPool();
 
     }
 
@@ -80,8 +86,7 @@ public class GameEngine {
                 if ((positions[i][j] != 0) && (positions[i][j] == positions[i][j+1]) && (positions[i][j] == positions[i][j+2]) && (positions[i][j] == positions[i][j+3])){
                     System.out.println("Winner: Player " + positions[i][j]);
                     winner = positions[i][j];
-                    Thread thread = new Thread(new DrawHorizontalLine(i, j));
-                    thread.start();
+                    cachedPool.submit(new DrawHorizontalLine(i, j));
                     return true;
                 }
             }
@@ -93,8 +98,7 @@ public class GameEngine {
                 if ((positions[i][j] != 0) && (positions[i][j] == positions[i+1][j]) && (positions[i][j] == positions[i+2][j]) && (positions[i][j] == positions[i+3][j])){
                     System.out.println("Winner: Player " + positions[i][j]);
                     winner = positions[i][j];
-                    Thread thread = new Thread(new DrawVerticalLine(i, j));
-                    thread.start();
+                    cachedPool.submit(new DrawVerticalLine(i, j));
                     return true;
                 }
             }
@@ -158,16 +162,21 @@ public class GameEngine {
 
     public void restartGame(){
 
+        grid.getCachedPool().shutdownNow();
+        cachedPool.shutdownNow();
+
         player1 = null;
         player2 = null;
         currentPlayer = null;
         controls = null;
-        grid = null;
+        //grid = null;
         positions = null;
         winner = 0;
         background = null;
         controller1 = null;
         controller2 = null;
+
+        Thread.currentThread().interrupt();
 
         GameEngine g = new GameEngine();
         g.init();

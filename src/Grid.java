@@ -1,5 +1,8 @@
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Grid {
 
     boolean[][] occupiedPositions;
@@ -7,11 +10,13 @@ public class Grid {
     Picture picture;
     int toMove = 0;
     Background background;
+    ExecutorService cachedPool;
 
 
     Grid(Background background) {
         occupiedPositions = new boolean[6][7];
         positions = new int[6][7];
+        cachedPool = Executors.newCachedThreadPool();
         this.background = background;
     }
 
@@ -45,8 +50,8 @@ public class Grid {
                 toMove = 0;
             }
 
-            Thread thread = new Thread(new DrawPlay(playedPosition, playerNumber, toMove, picture, background));
-            thread.start();
+            cachedPool.submit(new DrawPlay(playedPosition, playerNumber, toMove, picture, background));
+
 
             System.out.println("" + positions[0][0] + positions[0][1] + positions[0][2] + positions[0][3] + positions[0][4] + positions[0][5] + positions[0][6]);
             System.out.println("" + positions[1][0] + positions[1][1] + positions[1][2] + positions[1][3] + positions[1][4] + positions[1][5] + positions[1][6]);
@@ -70,4 +75,7 @@ public class Grid {
         return positions;
     }
 
+    public ExecutorService getCachedPool() {
+        return cachedPool;
+    }
 }
