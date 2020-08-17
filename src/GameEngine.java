@@ -9,35 +9,34 @@ public class GameEngine {
     Grid grid;
     int[][] positions;
     int winner;
+    Background background;
+    Controller controller1;
+    Controller controller2;
 
 
     public void init() {
 
-        Background background = new Background();
+        background = new Background();
 
-        Grid grid = new Grid();
+        grid = new Grid(background);
 
-
-        Controller controller1 = new Controller(1);
+        controller1 = new Controller(1);
         Player player1 = new Player(controller1, 1);
         player1.setGameEngine(this);
 
-        Controller controller2 = new Controller(2);
+        controller2 = new Controller(2);
         Player player2 = new Player(controller2, 2);
         player2.setGameEngine(this);
 
         player1.setOtherPlayer(player2);
         player2.setOtherPlayer(player1);
 
-        Controls controls = new Controls();
+        controls = new Controls();
         controls.init();
         controls.setGameEngine(this);
-        this.controls = controls;
 
-        this.grid = grid;
         this.player1 = player1;
         this.player2 = player2;
-
 
     }
 
@@ -71,7 +70,7 @@ public class GameEngine {
 
     }
 
-    public boolean checkIfThereIsAWinner() {
+    public boolean  checkIfThereIsAWinner() {
 
         positions = grid.getPositions();
 
@@ -166,14 +165,15 @@ public class GameEngine {
         grid = null;
         positions = null;
         winner = 0;
+        background = null;
+        controller1 = null;
+        controller2 = null;
 
         GameEngine g = new GameEngine();
         g.init();
         g.startGame();
 
     }
-
-
 
 }
 

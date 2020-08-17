@@ -25,5 +25,4 @@ public class Piece {
         return picture;
     }
 
-
 }

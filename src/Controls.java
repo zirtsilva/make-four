@@ -64,9 +64,7 @@ public class Controls implements KeyboardHandler {
     }
 
     @Override
-    public void keyReleased(KeyboardEvent keyboardEvent) {
-
-    }
+    public void keyReleased(KeyboardEvent keyboardEvent) {}
 
     public void setPlayer(Player player){
         this.player = player;

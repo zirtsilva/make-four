@@ -19,7 +19,6 @@ public class DrawHorizontalLine implements Runnable {
         Picture line = new Picture(x, y, "resources/horizontalLine.png");
         Picture restart = new Picture(200, 350 , "resources/restartScreen.png");
 
-
         try {
 
             Thread.sleep(500);
@@ -45,6 +44,5 @@ public class DrawHorizontalLine implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 }

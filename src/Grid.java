@@ -6,14 +6,16 @@ public class Grid {
     int[][] positions;
     Picture picture;
     int toMove = 0;
+    Background background;
 
 
-    Grid() {
+    Grid(Background background) {
         occupiedPositions = new boolean[6][7];
         positions = new int[6][7];
+        this.background = background;
     }
 
-    public synchronized void setPlay(int playerNumber, int playedPosition) {
+    public void setPlay(int playerNumber, int playedPosition) {
 
         if (playedPositionIsFree(playedPosition)) {
 
@@ -43,11 +45,8 @@ public class Grid {
                 toMove = 0;
             }
 
-
-            Thread thread = new Thread(new DrawPlay(playedPosition, playerNumber, toMove, picture));
+            Thread thread = new Thread(new DrawPlay(playedPosition, playerNumber, toMove, picture, background));
             thread.start();
-
-
 
             System.out.println("" + positions[0][0] + positions[0][1] + positions[0][2] + positions[0][3] + positions[0][4] + positions[0][5] + positions[0][6]);
             System.out.println("" + positions[1][0] + positions[1][1] + positions[1][2] + positions[1][3] + positions[1][4] + positions[1][5] + positions[1][6]);
@@ -56,7 +55,6 @@ public class Grid {
             System.out.println("" + positions[4][0] + positions[4][1] + positions[4][2] + positions[4][3] + positions[4][4] + positions[4][5] + positions[4][6]);
             System.out.println("" + positions[5][0] + positions[5][1] + positions[5][2] + positions[5][3] + positions[5][4] + positions[5][5] + positions[5][6]);
             System.out.println("-------------");
-
 
         }
     }

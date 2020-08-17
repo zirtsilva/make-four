@@ -1,6 +1,5 @@
 public class Player {
 
-
     int playerNumber;
     private Controller controller;
     private boolean itsHisTurn = false;
@@ -12,7 +11,6 @@ public class Player {
         this.controller = controller;
         this.playerNumber = playerNumber;
     }
-
 
     public void moveControllerLeft(){
         controller.moveLeft();
@@ -49,7 +47,4 @@ public class Player {
     public void setOtherPlayer(Player otherPlayer){
         this.otherPlayer = otherPlayer;
     }
-
-
-
 }

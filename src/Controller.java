@@ -23,7 +23,6 @@ public class Controller {
         }
     }
 
-
     public void moveLeft() {
         if (currentPosition > 1 && canMove) {
             controllerPicture.translate(-120, 0);
@@ -51,7 +50,5 @@ public class Controller {
     public int getCurrentPosition(){
         return currentPosition;
     }
-
-
 
 }
